@@ -1,0 +1,17 @@
+{
+	"ask_price":"95.0900",
+	"ask_size":1100,
+	"bid_price":"95.0500",
+	"bid_size":300,
+	"last_trade_price":"95.0000",
+	"last_extended_hours_trade_price":"95.0900",
+	"previous_close":"96.1100",
+	"adjusted_previous_close":"96.1100",
+	"previous_close_date":"2018-04-19",
+	"symbol":"MSFT",
+	"trading_halted":false,
+	"has_traded":true,
+	"last_trade_price_source":"consolidated",
+	"updated_at":"2018-04-20T23:24:10Z",
+	"instrument":"https://api.robinhood.com/instruments/50810c35-d215-4866-9758-0ada4ac79ffa/"
+}

@@ -1,0 +1,90 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+        //classpath('se.transmode.gradle:gradle-docker:1.2')
+        //classpath('io.spring.gradle:dependency-managment-plugin:0.5.3.RELEASE')
+		//classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+//apply plugin: "org.sonarqube"
+//apply plugin: 'docker'
+
+jar {
+	baseName = 'TickerRecordService-micro'
+	version = '0.1.0'
+	
+	manifest {
+		attributes 'Main-Class': 'com.Ticker.Record.Service.Application'
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencyManagement {
+	imports {
+		mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.228'
+	}
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf"){exclude module : 'spring-boot-starter-logging'}
+    compile("org.springframework.boot:spring-boot-devtools")		{exclude module : 'spring-boot-starter-logging'}
+    compile("org.springframework.boot:spring-boot-starter-tomcat")	{exclude module : 'spring-boot-starter-logging'}
+    compile("org.springframework.boot:spring-boot-starter-actuator"){exclude module : 'spring-boot-starter-logging'}
+    compile("org.springframework.boot:spring-boot-starter-security"){exclude module : 'spring-boot-starter-logging'}
+    compile("org.springframework.boot:spring-boot-starter-data-jpa"){exclude module : 'spring-boot-starter-logging'}
+    compile("com.fasterxml.jackson.core:jackson-databind")			{exclude module : 'spring-boot-starter-logging'}
+    compile('commons-io:commons-io:2.5')							{exclude module : 'spring-boot-starter-logging'}
+    //compile 'org.slf4j:slf4j-api:1.7.21'
+	compile('org.apache.httpcomponents:httpclient:4.5.3')			{exclude module : 'spring-boot-starter-logging'}
+	
+	//compile('org.postgresql:postgresql')
+	//compile group: 'org.postgresql', name: 'postgresql', version: '9.4-1201-jdbc41'
+	//compile group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-sql-postgresql'
+	
+	compile('org.springframework.boot:spring-boot-starter-jdbc')	{exclude module : 'spring-boot-starter-logging'}
+	
+	// [ Google Cloud ]
+	compile('org.postgresql:postgresql')
+	compile('com.google.cloud.sql:postgres-socket-factory:1.0.8')
+	
+	// [ AWS Cloud ]
+	//compile('com.amazonaws:aws-java-sdk-s3')
+	
+	// [ Make startup errors go away ]
+	compile('javax.xml.bind:jaxb-api:2.3.0')								{exclude module : 'spring-boot-starter-logging'}
+    
+    //email
+    //compile group: 'javax.mail', name: 'mail', version: '1.4.1'	
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    //exclude module : 'spring-boot-starter-logging'}
+	//compile('org.postgresql:postgresql:9.4-1201-jdbc4')
+	
+	testCompile("junit:junit")
+	testCompile("org.springframework.boot:spring-boot-starter-test"){exclude module : 'spring-boot-starter-logging'}
+}
+
+bootRun {
+	systemProperties(System.getProperties())
+}
+
+task getDeps(type: Copy) {
+	from sourceSets.main.runtimeClasspath
+	into 'runtime/'
+}
+
+
